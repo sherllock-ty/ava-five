@@ -44,11 +44,14 @@ export class ProductsService {
   async findOne(id) {
     let product: IProduct;
     try {
-      product = await this.productModel.findOneBy(id);
+      product = await this.productModel.findOneBy({id:id});
       if(!product){
           return null;
       }
   } catch (error) {
+    console.log(id);
+    console.log(error);
+    
       return null;
   }
   return product;
@@ -72,7 +75,7 @@ export class ProductsService {
   }
 
   async remove(id) : Promise<IProduct> {
-    const productToRemove = await this.productModel.findOne(id);
+    const productToRemove = await this.productModel.findOneBy({id:id});
 
     if (!productToRemove) {
       return null;

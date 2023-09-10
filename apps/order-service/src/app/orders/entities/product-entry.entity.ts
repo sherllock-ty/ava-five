@@ -1,5 +1,6 @@
 import { IProductEntry } from "../../common/interfaces/product-entry.interface";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Order } from "./order.entity";
 
 
 
@@ -18,6 +19,10 @@ export class ProductEntry implements IProductEntry{
 
     @Column()
     quantity:number;
+
+    @ManyToOne(type => Order, order => order.productEntries)
+    @JoinColumn({ name: 'id' })
+    order: Order;
 
 }
 

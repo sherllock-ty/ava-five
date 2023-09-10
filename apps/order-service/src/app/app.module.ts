@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Order } from './orders/entities/order.entity';
 import { OrdersModule } from './orders/orders.module';
 import { GuardModule } from './common/guard/guard.module';
+import { ProductEntry } from './orders/entities/product-entry.entity';
 
 @Module({
   imports: [    
@@ -13,7 +14,7 @@ import { GuardModule } from './common/guard/guard.module';
     port: 5432,
     password: 'password',
     username: 'user',
-    entities: [Order],
+    entities: [Order,ProductEntry],
     database: 'ecommerce',
     synchronize: true,
     logging: true,

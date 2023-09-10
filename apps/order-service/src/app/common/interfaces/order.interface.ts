@@ -6,5 +6,5 @@ export interface IOrder {
     userId:string;
     created_at:Date;
     status:OrderStatus;
-    product_entries:IProductEntry[];
+    // product_entries:IProductEntry[];
 }

@@ -44,7 +44,7 @@ export class OrdersService {
   async findOne(id) {
     let order: IOrder;
     try {
-      order = await this.orderModel.findOneBy(id);
+      order = await this.orderModel.findOneBy({id:id});
       if(!order){
           return null;
       }
@@ -76,7 +76,7 @@ export class OrdersService {
   }
 
   async remove(id) {
-    const orderToRemove = await this.findOne(id);
+    const orderToRemove = await this.orderModel.findOneBy({id:id});
 
     if (!orderToRemove) {
       return null;

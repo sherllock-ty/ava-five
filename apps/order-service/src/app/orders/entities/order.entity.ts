@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
-import { OrderStatus } from "../../common/enum/order-status.enum";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { OrderStatus, orderStatusArray } from "../../common/enum/order-status.enum";
 import { IOrder } from "../../common/interfaces/order.interface";
 import { ProductEntry } from "./product-entry.entity";
 
@@ -13,9 +13,10 @@ export class Order implements IOrder{
     userId:string;
     @Column()
     created_at:Date;
-    @Column()
+    @Column({ type:String,enum:[...orderStatusArray] })
     status:OrderStatus;
-    @Column()
-    product_entries:ProductEntry[];
+    @OneToMany(type => ProductEntry, productEntry => productEntry.order)
+    productEntries: ProductEntry[];
+    
 
 }

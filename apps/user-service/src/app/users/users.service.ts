@@ -15,16 +15,17 @@ export class UsersService {
   }
 
   async findById(id): Promise<IUser>{
-    let user: IUser;
+    let user;
     try {
-        user = await this.userModel.findOneBy(id);
+        user = await this.userModel.findOneBy({id:id});
         if(!user){
             return null;
         }
     } catch (error) {
         return null;
     }
-    return user;
+    const{password,salt,...userDto} = user;
+    return userDto;
 }
 
 async findAll(): Promise<IUser[]>{
@@ -34,7 +35,16 @@ async findAll(): Promise<IUser[]>{
     } catch (error) {
         return null;
     }
-    return users;
+    const userList : IUser[] = [];
+    users.forEach(elem =>{
+        userList.push({
+            id: elem.id,
+            username: elem.username,
+            email:elem.email,
+            role: elem.role
+        })
+    })
+    return userList;
 }
 
 async createOne(user: CreateUserDto): Promise<IUser>{
@@ -58,7 +68,7 @@ async createOne(user: CreateUserDto): Promise<IUser>{
 async deleteOne(id): Promise<IUser>{
 
 
-    const UserToRemove = await this.userModel.findOneBy(id);
+    const UserToRemove = await this.userModel.findOneBy({id:id});
 
     if (!UserToRemove) {
       return null;
@@ -74,7 +84,7 @@ async deleteOne(id): Promise<IUser>{
 
 async updateOne(id, update: UpdateUserDto): Promise<IUser>{
     const { username, email, role, password } = update;
-    let user : any = await this.userModel.findOneBy(id);
+    let user : any = await this.userModel.findOneBy({id:id});
 
       if (!user) {
         return null; 
