@@ -1,0 +1,74 @@
+{
+  "name": "ava-five-assessment",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ava-five-assessment/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/ava-five-assessment",
+        "main": "apps/ava-five-assessment/src/main.ts",
+        "tsConfig": "apps/ava-five-assessment/tsconfig.app.json",
+        "assets": [
+          "apps/ava-five-assessment/src/assets"
+        ],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/ava-five-assessment/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "ava-five-assessment:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ava-five-assessment:build:development"
+        },
+        "production": {
+          "buildTarget": "ava-five-assessment:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/ava-five-assessment/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/ava-five-assessment/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
