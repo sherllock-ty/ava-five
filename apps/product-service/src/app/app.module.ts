@@ -9,7 +9,7 @@ import { Product } from './products/entities/product.entity';
   imports: [    
     TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'localhost',
+    host: 'postgres',
     port: 5432,
     password: 'password',
     username: 'user',
