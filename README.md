@@ -32,3 +32,11 @@ Make sure you have the following software installed on your system:
 3. build and start with docker compose
 
     docker-compose up --build
+
+
+## Informations
+the services are available in localhost:80/api/{service}
+    example :  localhost:80/api/users 
+
+after creating a user, you can login to get the authorization Token through 
+    localhost:80/api/users/auth/signin
