@@ -18,13 +18,16 @@ export class UsersController {
     return this.usersService.createOne(createUserDto);
   }
 
-  
   @Get(':id')
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @HasRole('OWNER')
   findUser(@Param() id) : Promise<IUser>{
     return this.usersService.findById(id);
   }
 
   @Get()
+  // @UseGuards(JwtAuthGuard,RolesGuard)
+  // @HasRole('OWNER')
   findAll() : Promise<IUser[]>{
     return this.usersService.findAll();
   }
@@ -35,12 +38,15 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard,RolesGuard)
   @HasRole('OWNER')
   updateOne(@Param() id, @Body(ValidationPipe) updateUserDto: UpdateUserDto): Promise<IUser>{
       return this.usersService.updateOne(id, updateUserDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @HasRole('OWNER')
   deleteOne(@Param() id): Promise<IUser>{
       return this.usersService.deleteOne(id);
   }

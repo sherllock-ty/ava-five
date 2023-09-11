@@ -7,7 +7,7 @@
 
 ## Start the app
 
-To start the development server run `nx serve ava-five-assessment`. Open your browser and navigate to http://localhost:4200/. Happy coding!
+To start the development server run `docker compose up --build.
 
 
 ## Generate code

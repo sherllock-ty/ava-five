@@ -5,18 +5,21 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { OrderStatus } from '../common/enum/order-status.enum';
+import { ProducerService } from '../kafka/producer.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderModel: Repository<Order>,
+    private producerService: ProducerService,
 
   ){}
   async create(createOrdertDto: CreateOrderDto) {
     const queryBuilder = this.orderModel.createQueryBuilder()
     .insert()
     .into(Order)
-    .values({...createOrdertDto})
+    .values({...createOrdertDto,status:OrderStatus.PENDING})
     .returning('*');
 
     try {
@@ -24,6 +27,9 @@ export class OrdersService {
       if (createdOrder.raw.length === 0) {
         return null; 
       }
+      await this.producerService.produce('order-pending', {
+        value: 'orderId',
+      });
 
       return createdOrder.raw[0]; 
     } catch (error) {
@@ -70,9 +76,29 @@ export class OrdersService {
     } catch (error) {
       throw new Error()
     }
+  }
+  
 
+  async confirmOrder(id) {
+    if (id !== 'orderId'){
+    const updated = this.update(id,{status:OrderStatus.VALIDATED});
+    await this.producerService.produce('order-valid', {
+      value: 'orderId',
+    });
+  } else {
+    console.log('Order Confirmed');
+  }
+  }
 
-
+  async cancelOrder(id) {
+    if (id !== 'orderId'){
+      const updated = this.update(id,{status:OrderStatus.VALIDATED});
+      await this.producerService.produce('order-valid', {
+        value: 'orderId',
+      });
+    } else {
+      console.log('Order Canceled');
+    }
   }
 
   async remove(id) {

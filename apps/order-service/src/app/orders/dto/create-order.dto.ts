@@ -5,7 +5,6 @@ import { IProductEntry } from "../../common/interfaces/product-entry.interface";
 export class CreateOrderDto implements ICreateOrderDto {
     userId:string;
     created_at:Date;
-    status:OrderStatus;
     product_entries:IProductEntry[];
 
 }

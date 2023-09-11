@@ -5,11 +5,13 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ProducerService } from '../kafka/producer.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product) private productModel: Repository<Product>,
+    private producerService: ProducerService
   ){}
   
   async create(createProductDto: CreateProductDto) : Promise<IProduct>{
@@ -39,6 +41,27 @@ export class ProductsService {
         return null;
     }
     return products;
+  }
+
+  async isProductAvailable(productList): Promise<boolean>{
+    let products: IProduct[];
+    let allItemsValid : boolean ;
+    try {
+      products = await this.productModel.find();
+      productList.forEach(product =>{
+        allItemsValid = productList.every(item => {
+          const product = products.find(product => product.id === item.id);
+      
+          if (!product) {
+            return false;
+          }
+          return item.quantity <= product.stock;
+        });
+      })
+    } catch (error) {
+        return null;
+    }
+    return allItemsValid;
   }
 
   async findOne(id) {
