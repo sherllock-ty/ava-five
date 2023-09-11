@@ -32,6 +32,7 @@ services:
       dockerfile: Dockerfile.compose
     networks:
       - assessment-network
+      - apps-network
     volumes:
       - ./apps/product-service:/app/apps/product-service
     ports:
@@ -39,6 +40,7 @@ services:
     command: npx nx serve apps/product-service
     depends_on:
       - postgres
+      - kafka
   order-service:
     restart: always
     build:
@@ -46,6 +48,7 @@ services:
       dockerfile: Dockerfile.compose
     networks:
       - assessment-network
+      - apps-network
     volumes:
       - ./apps/order-service:/app/apps/order-service
     ports:
@@ -60,6 +63,7 @@ services:
       dockerfile: Dockerfile.compose
     networks:
       - assessment-network
+      - apps-network
     volumes:
       - ./apps/user-service:/app/apps/user-service
     ports:
@@ -69,6 +73,8 @@ services:
       - postgres
   nginx:
     image: 'nginx:latest'
+    networks:
+      - apps-network
     ports:
       - '80:80'
     volumes:
@@ -80,6 +86,8 @@ services:
 
 networks:
   assessment-network:
+    driver: bridge
+  apps-network:
     driver: bridge
     
 volumes:
