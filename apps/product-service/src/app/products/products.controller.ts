@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -14,7 +14,7 @@ export class ProductsController {
   @Post()
   @UseGuards(JwtAuthGuard,RolesGuard)
   @HasRole('OWNER')
-  create(@Body() createProductDto: CreateProductDto) : Promise<IProduct>{
+  create(@Body(ValidationPipe) createProductDto: CreateProductDto) : Promise<IProduct>{
     return this.productsService.create(createProductDto);
   }
 
@@ -32,7 +32,7 @@ export class ProductsController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard,RolesGuard)
   @HasRole('OWNER')
-  update(@Param('id') id, @Body() updateProductDto: UpdateProductDto) : Promise<IProduct> {
+  update(@Param('id') id, @Body(ValidationPipe) updateProductDto: UpdateProductDto) : Promise<IProduct> {
     return this.productsService.update(id, updateProductDto);
   }
 

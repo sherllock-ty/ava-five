@@ -3,6 +3,5 @@ import { IProductEntry } from "./product-entry.interface";
 
 export interface ICreateOrderDto {
     userId:string;
-    created_at:Date;
     product_entries:IProductEntry[];
 }

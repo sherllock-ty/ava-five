@@ -19,6 +19,7 @@ export class OrderConsumer implements OnModuleInit {
         console.log({
           value: message.value.toString(),
         });
+        //For demonstration
         const available = await this.productService.isProductAvailable([]);
         if(available){
           await this.producerService.produce('order-confirmed', {

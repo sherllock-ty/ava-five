@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -11,7 +11,7 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) : Promise<IOrder>{
+  create(@Body(ValidationPipe) createOrderDto: CreateOrderDto) : Promise<IOrder>{
     return this.ordersService.create(createOrderDto);
   }
 
@@ -27,7 +27,7 @@ export class OrdersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id, @Body() updateOrderDto: UpdateOrderDto) : Promise<IOrder>{
+  update(@Param('id') id, @Body(ValidationPipe) updateOrderDto: UpdateOrderDto) : Promise<IOrder>{
     return this.ordersService.update(id, updateOrderDto);
   }
 

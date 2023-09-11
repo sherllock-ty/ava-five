@@ -13,8 +13,6 @@ interface KafkajsConsumerOptions {
 export class ConsumerService implements OnApplicationShutdown {
   private readonly consumers: IConsumer[] = [];
 
-  constructor(
-  ) {}
 
   async consume({ topic, config, onMessage }: KafkajsConsumerOptions) {
     const consumer = new KafkajsConsumer(
