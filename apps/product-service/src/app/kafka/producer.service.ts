@@ -7,7 +7,6 @@ import { IProducer } from './producer.interface';
 export class ProducerService implements OnApplicationShutdown {
   private readonly producers = new Map<string, IProducer>();
 
-  constructor() {}
 
   async produce(topic: string, message: Message) {
     const producer = await this.getProducer(topic);

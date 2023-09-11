@@ -16,10 +16,15 @@ export class OrdersService {
 
   ){}
   async create(createOrdertDto: CreateOrderDto) {
+
+    const totalPrice = createOrdertDto.product_entries.reduce((total, product) => {
+      return total + product.unit_price;
+    }, 0);
+    
     const queryBuilder = this.orderModel.createQueryBuilder()
     .insert()
     .into(Order)
-    .values({...createOrdertDto,status:OrderStatus.PENDING})
+    .values({...createOrdertDto,status:OrderStatus.PENDING,price:totalPrice})
     .returning('*');
 
     try {

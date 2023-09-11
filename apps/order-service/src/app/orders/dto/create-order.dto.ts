@@ -6,6 +6,7 @@ import { IProductEntry } from "../../common/interfaces/product-entry.interface";
 export class CreateOrderDto implements ICreateOrderDto {
     @IsNotEmpty()
     userId:string;
+    
     @IsNotEmpty()
     product_entries:IProductEntry[];
 

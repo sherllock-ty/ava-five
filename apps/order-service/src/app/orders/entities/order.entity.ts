@@ -11,6 +11,8 @@ export class Order implements IOrder{
     id:string;
     @Column()
     userId:string;
+    @Column()
+    price:number;
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at:Date;
     @Column({ type:String,enum:[...orderStatusArray] })

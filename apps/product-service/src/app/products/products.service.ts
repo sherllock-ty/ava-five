@@ -46,6 +46,8 @@ export class ProductsService {
   async isProductAvailable(productList): Promise<boolean>{
     let products: IProduct[];
     let allItemsValid : boolean ;
+    console.log("Checking availability and validating prices");
+    
     try {
       products = await this.productModel.find();
       productList.forEach(product =>{
