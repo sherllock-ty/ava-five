@@ -12,28 +12,28 @@ export class OrderConsumer implements OnModuleInit {
     ) {}
 
   async onModuleInit() {
-    await this.consumerService.consume({
-      topic: { topic: 'order-confirmed' },
-      config: { groupId: 'order-group' },
-      onMessage: async (message) => {
-        console.log({
-          value: message.value.toString(),
-        });
-        const available = await this.orderService.confirmOrder('orderId');
+  //   await this.consumerService.consume({
+  //     topic: { topic: 'order-confirmed' },
+  //     config: { groupId: 'order-group' },
+  //     onMessage: async (message) => {
+  //       console.log({
+  //         value: message.value.toString(),
+  //       });
+  //       const available = await this.orderService.confirmOrder('orderId');
 
-      },
-    });
+  //     },
+  //   });
 
-    await this.consumerService.consume({
-      topic: { topic: 'order-canceled' },
-      config: { groupId: 'order-group' },
-      onMessage: async (message) => {
-        console.log({
-          value: message.value.toString(),
-        });
-        await this.orderService.cancelOrder('orderId');
+    // await this.consumerService.consume({
+    //   topic: { topic: 'order-canceled' },
+    //   config: { groupId: 'order-group' },
+    //   onMessage: async (message) => {
+    //     console.log({
+    //       value: message.value.toString(),
+    //     });
+    //     await this.orderService.cancelOrder('orderId');
         
-      },
-    });
+    //   },
+    // });
   }
 }
